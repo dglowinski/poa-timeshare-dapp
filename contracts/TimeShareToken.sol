@@ -1,25 +1,25 @@
 pragma solidity ^0.4.24;
 
-import "zeppelin/token/ERC20/PausableToken.sol";
-import "zeppelin/token/ERC20/DetailedERC20.sol";
-import "zeppelin/token/ERC20/MintableToken.sol";
-import "zeppelin/token/ERC20/BurnableToken.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/PausableToken.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/DetailedERC20.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/BurnableToken.sol";
 import "./libraries/DateTime.sol";
 
 interface IParentToken {
-    function getMetaData() public view returns (string);
+    function getMetaData() external view returns (string);
 }
 
 //TODO deploy DateTime as external library
 contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, BurnableToken, DateTime {
 
     //booking one day costs one token
-    uint256 constant costPerDay = 10e17;
+    uint256 public constant costPerDay = 10e17;
 
     //mapping from timestamp to address whiched booked the day
-    mapping(uint256 => address) renters;
+    mapping(uint256 => address) public renters;
     //is day rented by address
-    mapping(address => mapping(uint256 => bool)) daysBookedByAddress;
+    mapping(address => mapping(uint256 => bool)) public daysBookedByAddress;
 
     modifier onlyIfSufficientBalance() {
         require(balances[msg.sender] >= costPerDay, "insufficient balance");
@@ -36,6 +36,7 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
     event BookDay(address indexed renter, uint256 year, uint256 month, uint256 day);
 
     constructor()
+        public
         DetailedERC20("Time share token", "TST", 18)
     {}
 
@@ -51,12 +52,13 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
         onlyIfSufficientBalance 
         onlyIfValidDate(_year, _month, _day) 
     {
-        
         uint256 timestamp = toTimestamp(uint16(_year), uint8(_month), uint8(_day));
         require(renters[timestamp] == address(0), "date already booked");
 
         renters[timestamp] = msg.sender;
         daysBookedByAddress[msg.sender][timestamp] = true;
+
+        burn(10e17);
 
         emit BookDay(msg.sender, _year, _month, _day);
     }
@@ -72,11 +74,10 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
     }
 
     ///@notice check if the access key is valid ie. that the signee did book this date
-    /// Called by smart lock to open the door. 
+    ///Called by smart lock to open the door. 
     function isValidAccessKey(bytes32 data, uint8 v, bytes32 r, bytes32 s)
         external 
         view
-        onlyIfValidDate(_year, _month, _day) 
         returns (bool)
     {
         address signee = ecrecover(data, v, r, s);
@@ -84,13 +85,12 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
     }
 
 //     function verify(bytes32 hash, uint8 v, bytes32 r, bytes32 s) constant returns(bool) {
-
 //     bytes memory prefix = "\x19Ethereum Signed Message:\n32";
 //     bytes32 prefixedHash = keccak256(prefix, hash);
 //     return ecrecover(prefixedHash, v, r, s) == (Your Address);
 // }
 
-    ///@notice get metadata of the property, it's the same as in parent contract
+    ///@notice get metadata of the property, it's the same as in the parent contract
     function getMetaData() external view returns (string) {
         return IParentToken(owner).getMetaData();
     }

@@ -1,12 +1,13 @@
 pragma solidity ^0.4.24;
 
-import "zeppelin/token/ERC20/PausableToken.sol";
-import "zeppelin/token/ERC20/DetailedERC20.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/PausableToken.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/DetailedERC20.sol";
 import "./TimeShareToken.sol";
+
 
 contract PoAToken is PausableToken, DetailedERC20 {
     ///@dev instead of keeping time share balance, we could simply mint time share token
-    ///but this would make every transfer consume a little more gas
+    ///but this would make every transfer consume a little more gas, and would be subjectively less clean
     struct TimeShare {
         uint256 lastBlockNumber;
         uint256 lastBalance;
@@ -14,10 +15,9 @@ contract PoAToken is PausableToken, DetailedERC20 {
 
     /**
       @dev for simplicity I use blocks as measurement of time, assuming that using average block
-      time https://etherscan.io/chart/blocktime we can calculate the duration an address is  holding tokens
-      For production implementation this would need to be calculated more precisely, using timestamp or 
-      perhaps even compensating for imprecise time calculation by holding a reserve and burning or minting TST tokens
-      to make sure supply of TST is in sync with the calendar.
+      time https://etherscan.io/chart/blocktime we can calculate the duration an address is holding tokens
+      For production implementation this would need to be calculated more precisely
+
       Also speeding up time for demonstration purposes
     */
     uint256 public constant blocksInYear = 730;
@@ -31,18 +31,19 @@ contract PoAToken is PausableToken, DetailedERC20 {
     string public metaData;
     address public propertySeller;
     
-    mapping (address => TimeShare) timeShares;
+    mapping(address => TimeShare) public timeShares;
 
     //no need to log block number explicitly
     event UpdateTimeShare(address indexed owner, uint256 balance);
-    event ClaimTimeShareToken(address indexed claimer, uint256 amount);
+    event ClaimTimeShareTokens(address indexed claimer, uint256 amount);
 
-    constructor(address _propertySeller, uint256 _totalSupply, uint256 _tokensPerEther, string _metaData) 
+    constructor(address _propertySeller, uint256 _totalSupply, uint256 _tokensForEther, string _metaData) 
+        public
         DetailedERC20("PoA Token", "PoA", 18)
     {
         propertySeller = _propertySeller;
         totalSupply_ = _totalSupply;
-        tokensPerEther = _tokensPerEther;
+        tokensForEther = _tokensForEther;
         //TODO put metadata on swarm
         metaData = _metaData;
         balances[propertySeller] = totalSupply_;
@@ -54,7 +55,7 @@ contract PoAToken is PausableToken, DetailedERC20 {
 
         updateTimeShare(propertySeller);
 
-        emit Transfer(address(0), propertySeller, totalSuppy_);
+        emit Transfer(address(0), propertySeller, totalSupply_);
     }
 
     ///@notice fall back payable function to buy tokens for Ξ
@@ -79,7 +80,7 @@ contract PoAToken is PausableToken, DetailedERC20 {
         uint256 currentBalance = timeShareBalanceOf(msg.sender); 
         require(_amount <= currentBalance, "insufficient balance");
 
-        timeShares[msg.sender].lastBalance = currentBalance.sub(_ammount);
+        timeShares[msg.sender].lastBalance = currentBalance.sub(_amount);
         timeShares[msg.sender].lastBlockNumber = block.number;
 
         require(timeShareToken.mint(msg.sender, _amount), "minting TST failed");
@@ -90,8 +91,18 @@ contract PoAToken is PausableToken, DetailedERC20 {
 
     ///@notice get amount of tokens available for sale
     ///@return number of tokens available for sale 
-    function tokensForSaleAvailable() external view returns (uint256) {
+    function getTokensForSaleAvailable() external view returns (uint256) {
         return balances[propertySeller];
+    }
+
+    ///@notice get property meta data
+    function getMetaData() external view returns (string) {
+        return metaData;
+    }
+
+    ///@notice get the address of time share token
+    function getTimeShareTokenAddress() external view returns (address) {
+        return address(timeShareToken);
     }
 
     ///@dev override standard transfer method
@@ -114,10 +125,6 @@ contract PoAToken is PausableToken, DetailedERC20 {
         return true;
     }
 
-    ///@notice get property meta data
-    function getMetaData() public view returns (string) {
-        return metaData;
-    }
 
     /**
       @notice get time share balance available to _address at current block
@@ -138,8 +145,8 @@ contract PoAToken is PausableToken, DetailedERC20 {
                 .sub(timeShare.lastBlockNumber)
                 .mul(balances[_address])
                 .mul(daysInYear)
+                .mul(10e17)
                 .div(blocksInYear.mul(totalSupply_))
-                .mul(uint256(10).pow(timeShareToken.decimals))
             );
     }
 
@@ -153,6 +160,6 @@ contract PoAToken is PausableToken, DetailedERC20 {
         
         timeShare.lastBlockNumber = block.number; 
 
-        emit UpdateTimeShare(_address, timeShare.lastBlockNumber, timeShare.lastBalance);
+        emit UpdateTimeShare(_address, timeShare.lastBalance);
     }
 }
