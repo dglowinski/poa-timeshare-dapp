@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "truffle test",
+    "precommit": "lint-staged"
   },
   "keywords": [],
   "author": "",
@@ -24,5 +25,16 @@
     "moment": "^2.22.2",
     "prettier": "^1.14.2",
     "web3-utils": "^1.0.0-beta.35"
+  },
+  "lint-staged": {
+    "*.sol": [
+      "solium -f",
+      "git add"
+    ],
+    "*.js": [
+      "eslint --fix",
+      "prettier --config .prettierrc --write",
+      "git add"
+    ]
   }
 }
