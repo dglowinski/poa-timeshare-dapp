@@ -57,7 +57,7 @@ contract('PoA & TST', ([, propertySeller, buyer, anotherBuyer]) => {
   })
 
   it('can get TST token metadata ', async () => {
-    const tokenMetaData = await this.poa.getMetaData()
+    const tokenMetaData = await this.tst.getMetaData()
     assert.equal(tokenMetaData, metaData)
   })
 
