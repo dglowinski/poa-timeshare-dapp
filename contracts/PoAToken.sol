@@ -37,7 +37,12 @@ contract PoAToken is PausableToken, DetailedERC20 {
     event UpdateTimeShare(address indexed owner, uint256 balance);
     event ClaimTimeShareTokens(address indexed claimer, uint256 amount);
 
-    constructor(address _propertySeller, uint256 _totalSupply, uint256 _tokensForEther, string _metaData) 
+    constructor(
+        address _propertySeller, 
+        uint256 _totalSupply, 
+        uint256 _tokensForEther, 
+        string _metaData
+    ) 
         public
         DetailedERC20("PoA Token", "PoA", 18)
     {
@@ -60,7 +65,10 @@ contract PoAToken is PausableToken, DetailedERC20 {
 
     ///@notice fall back payable function to buy tokens for Ξ
     ///propertySeller can buy back the tokens and resell them, if it makes sense for him
-    function() external payable {
+    function() 
+        external 
+        payable 
+    {
         uint256 buyAmount = msg.value.mul(tokensForEther);
         require(buyAmount <= balances[propertySeller], "Not enough tokens left");
         
@@ -74,7 +82,9 @@ contract PoAToken is PausableToken, DetailedERC20 {
     }
 
     ///@notice create TST for the message sender from available balance 
-    function claimTimeShareTokens(uint256 _amount) external {
+    function claimTimeShareTokens(uint256 _amount) 
+        external 
+    {
         require(address(timeShareToken) != address(0), "TST unavailable");
 
         uint256 currentBalance = timeShareBalanceOf(msg.sender); 
@@ -91,22 +101,42 @@ contract PoAToken is PausableToken, DetailedERC20 {
 
     ///@notice get amount of tokens available for sale
     ///@return number of tokens available for sale 
-    function getTokensForSaleAvailable() external view returns (uint256) {
+    function getTokensForSaleAvailable() 
+        external 
+        view 
+        returns (uint256) 
+    {
         return balances[propertySeller];
     }
 
     ///@notice get property meta data
-    function getMetaData() external view returns (string) {
+    ///@return property meta data
+    function getMetaData() 
+        external 
+        view 
+        returns (string) 
+    {
         return metaData;
     }
 
     ///@notice get the address of time share token
-    function getTimeShareTokenAddress() external view returns (address) {
+    ///@return TST address
+    function getTimeShareTokenAddress() 
+        external 
+        view 
+        returns (address) 
+    {
         return address(timeShareToken);
     }
 
     ///@dev override standard transfer method
-    function transfer(address _to, uint256 _value) public returns (bool) {
+    function transfer(
+        address _to, 
+        uint256 _value
+    ) 
+        public 
+        returns (bool) 
+    {
         require(super.transfer(_to, _value), "transfer failed");
 
         updateTimeShare(msg.sender);
@@ -116,7 +146,14 @@ contract PoAToken is PausableToken, DetailedERC20 {
     }
 
     ///@dev override standard transferFrom method
-    function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
+    function transferFrom(
+        address _from, 
+        address _to, 
+        uint256 _value
+    ) 
+        public 
+        returns (bool) 
+    {
         require(super.transferFrom(_from, _to, _value), "transferFrom failed");
 
         updateTimeShare(_from);
@@ -125,7 +162,6 @@ contract PoAToken is PausableToken, DetailedERC20 {
         return true;
     }
 
-
     /**
       @notice get time share balance available to _address at current block
       @dev formula to calculate the amount of TST the address is entitled at block:
@@ -133,8 +169,13 @@ contract PoAToken is PausableToken, DetailedERC20 {
       where 
       holding_duration = block.number - last_updated_block_number
       percentage_of_tokens_owned = balance / total_supply
+      @return time share balance
     */
-    function timeShareBalanceOf(address _address) public view returns (uint256) {
+    function timeShareBalanceOf(address _address) 
+        public 
+        view 
+        returns (uint256) 
+    {
         TimeShare storage timeShare = timeShares[_address];
 
         return timeShare.lastBlockNumber == 0 
@@ -151,7 +192,9 @@ contract PoAToken is PausableToken, DetailedERC20 {
     }
 
     ///@notice update time share balance available to _address at current block
-    function updateTimeShare(address _address) internal {
+    function updateTimeShare(address _address) 
+        internal 
+    {
         TimeShare storage timeShare = timeShares[_address];
 
         if(timeShare.lastBlockNumber != 0) {

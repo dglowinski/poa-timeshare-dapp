@@ -28,7 +28,11 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
         _;
     }
 
-    modifier onlyIfValidDate(uint256 _year, uint256 _month, uint256 _day) {
+    modifier onlyIfValidDate(
+        uint256 _year, 
+        uint256 _month, 
+        uint256 _day
+    ) {
         require(_year >= 2018, "invalid year");
         require(_month >= 1 && _month <= 12, "invalid month");
         require(_day >= 1 && _day <= getDaysInMonth(uint8(_month), uint16(_year)), "invalid day");
@@ -36,10 +40,6 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
     }
 
     event BookDay(address indexed renter, uint256 year, uint256 month, uint256 day);
-    event Test(uint256 val);
-    event TestBytes(bytes val);
-    event TestBytes32(bytes32 val); 
-    event TestAddress(address val);
 
     constructor()
         public
@@ -47,13 +47,20 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
     {}
 
     ///@dev token cannot own Ξ (unless is a target of mining reward or self-destruct)
-    function() external payable {
+    function() 
+        external 
+        payable 
+    {
         revert("we don't accept ether, thank you");
     }
     
     ///@notice book the date to use the property
-    ///@dev TODO - unbook the date, mint the token back to renter
-    function bookDay(uint256 _year, uint256 _month, uint256 _day) 
+    ///@dev TODO: unbook the date, mint the token back to renter
+    function bookDay(
+        uint256 _year, 
+        uint256 _month, 
+        uint256 _day
+    ) 
         external 
         onlyIfSufficientBalance 
         onlyIfValidDate(_year, _month, _day) 
@@ -70,7 +77,10 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
     }
 
     ///@notice check if the date is available
-    function isDayBooked(uint256 _year, uint256 _month, uint256 _day) 
+    ///@return true if day is booked
+    function isDayBooked(
+        uint256 _year, 
+        uint256 _month, uint256 _day) 
         external 
         view
         onlyIfValidDate(_year, _month, _day) 
@@ -81,7 +91,11 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
 
     ///@notice check if the access key is valid ie. that the signee did book this date
     ///Called by smart lock to open the door. 
-    function isValidAccessKey(uint256 timestamp, bytes _signature)
+    ///@return true if key is valid for given day
+    function isValidAccessKey(
+        uint256 timestamp, 
+        bytes _signature
+    )
         external 
         view
         returns (bool)
@@ -94,14 +108,22 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
     }
 
     ///@notice get metadata of the property, it's the same as in the parent contract
-    function getMetaData() external view returns (string) {
+    function getMetaData() 
+        external 
+        view 
+        returns (string) 
+    {
         return IParentToken(owner).getMetaData();
     }
 
     ///@notice convert uint to bytes
-    function toBytes(uint256 x) internal pure returns (bytes b) {
+    function toBytes(uint256 x) 
+        internal 
+        pure 
+        returns (bytes b) 
+    {
         b = new bytes(32);
-        // fairly simple operation, no danger here
+        // fairly simple operation, no danger
         // solium-disable-next-line security/no-inline-assembly
         assembly { mstore(add(b, 32), x) }
     }
