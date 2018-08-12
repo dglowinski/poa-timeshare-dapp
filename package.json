@@ -9,18 +9,21 @@
   "scripts": {
     "test": "truffle test",
     "precommit": "lint-staged",
-    "coverage": "./node_modules/.bin/solidity-coverage"
+    "coverage": "./node_modules/.bin/solidity-coverage",
+    "ropsten": "truffle migrate --network ropsten --reset | tee ./ropsten.log"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "openzeppelin-solidity": "1.11.0"
+    "openzeppelin-solidity": "1.11.0",
+    "truffle-hdwallet-provider": "0.0.6"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",
     "chai": "^4.1.2",
     "chai-bignumber": "^2.0.2",
+    "dotenv": "^6.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-compat": "^2.5.1",

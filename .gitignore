@@ -3,3 +3,6 @@ build
 
 coverage
 coverage.json
+
+ropsten.log
+.env
