@@ -4,6 +4,7 @@ import "openzeppelin-solidity/contracts/token/ERC20/PausableToken.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/DetailedERC20.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/BurnableToken.sol";
+import "openzeppelin-solidity/contracts/ECRecovery.sol";
 import "./libraries/DateTime.sol";
 
 interface IParentToken {
@@ -12,7 +13,8 @@ interface IParentToken {
 
 //TODO deploy DateTime as external library
 contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, BurnableToken, DateTime {
-
+    using ECRecovery for bytes32;
+    
     //booking one day costs one token
     uint256 public constant costPerDay = 10e17;
 
@@ -34,6 +36,10 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
     }
 
     event BookDay(address indexed renter, uint256 year, uint256 month, uint256 day);
+    event Test(uint256 val);
+    event TestBytes(bytes val);
+    event TestBytes32(bytes32 val); 
+    event TestAddress(address val);
 
     constructor()
         public
@@ -58,7 +64,7 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
         renters[timestamp] = msg.sender;
         daysBookedByAddress[msg.sender][timestamp] = true;
 
-        burn(10e17);
+        burn(costPerDay);
 
         emit BookDay(msg.sender, _year, _month, _day);
     }
@@ -75,23 +81,28 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
 
     ///@notice check if the access key is valid ie. that the signee did book this date
     ///Called by smart lock to open the door. 
-    function isValidAccessKey(bytes32 data, uint8 v, bytes32 r, bytes32 s)
+    function isValidAccessKey(uint256 timestamp, bytes _signature)
         external 
         view
         returns (bool)
     {
-        address signee = ecrecover(data, v, r, s);
-        return daysBookedByAddress[signee][uint256(data)];
-    }
+        bytes memory prefix = "\x19Ethereum Signed Message:\n32";
+        bytes32 prefixedHash = keccak256(abi.encodePacked(prefix, keccak256(toBytes(timestamp))));
+        address signee = prefixedHash.recover(_signature);
 
-//     function verify(bytes32 hash, uint8 v, bytes32 r, bytes32 s) constant returns(bool) {
-//     bytes memory prefix = "\x19Ethereum Signed Message:\n32";
-//     bytes32 prefixedHash = keccak256(prefix, hash);
-//     return ecrecover(prefixedHash, v, r, s) == (Your Address);
-// }
+        return daysBookedByAddress[signee][timestamp];
+    }
 
     ///@notice get metadata of the property, it's the same as in the parent contract
     function getMetaData() external view returns (string) {
         return IParentToken(owner).getMetaData();
+    }
+
+    ///@notice convert uint to bytes
+    function toBytes(uint256 x) internal pure returns (bytes b) {
+        b = new bytes(32);
+        // fairly simple operation, no danger here
+        // solium-disable-next-line security/no-inline-assembly
+        assembly { mstore(add(b, 32), x) }
     }
 }
