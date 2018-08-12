@@ -9,7 +9,7 @@
   "scripts": {
     "test": "truffle test",
     "precommit": "lint-staged",
-    "coverage": "./node_modules/.bin/solidity-coverage",
+    "coverage": "COVERAGE=1 ./node_modules/.bin/solidity-coverage",
     "ropsten": "truffle migrate --network ropsten --reset | tee ./ropsten.log"
   },
   "keywords": [],

@@ -14,6 +14,10 @@ require('chai')
 const PoAToken = artifacts.require('./PoAToken.sol')
 const TimeShareToken = artifacts.require('./TimeShareToken.sol')
 
+//coverage tests interfere in advancing blocks, need to compensate
+//TODO look closer into the issue
+const compensateCoverage = Number(process.env.COVERAGE) || 0
+
 contract('PoA & TST', ([, propertySeller, buyer, anotherBuyer]) => {
   const totalSupply = new BigNumber(100 * 10e17)
   const tokensForEther = new BigNumber(10)
@@ -78,13 +82,13 @@ contract('PoA & TST', ([, propertySeller, buyer, anotherBuyer]) => {
   })
 
   it("one 'day' generates 1 TST worth from 100% PoA", async () => {
-    await advanceToBlock(web3.eth.blockNumber + 2)
+    await advanceToBlock(web3.eth.blockNumber + 2 - compensateCoverage)
     const tsBalance = await this.poa.timeShareBalanceOf(propertySeller)
     tsBalance.should.be.bignumber.equal(toToken(1))
   })
 
   describe('When buyer holds tokens for some time', () => {
-    const timeShareBalanceAfter5Blocks = toToken(5 / 2 / 10)
+    const timeShareBalanceAfter5Blocks = toToken(5 / 20)
 
     beforeEach(async () => {
       await this.poa.sendTransaction({
@@ -139,19 +143,26 @@ contract('PoA & TST', ([, propertySeller, buyer, anotherBuyer]) => {
 
     it('time share balance is available', async () => {
       const tsBalance = await this.poa.timeShareBalanceOf(buyer)
-      tsBalance.should.be.bignumber.equal(toToken(4 / 2 / 10))
+      tsBalance.should.be.bignumber.equal(
+        toToken((4 + compensateCoverage) / 20)
+      )
     })
 
     it('can claim TST token', async () => {
-      await this.poa.claimTimeShareTokens(timeShareBalanceAfter5Blocks / 2, {
+      const amountToClaim =
+        timeShareBalanceAfter5Blocks.add(
+          compensateCoverage ? toToken(1 / 20) : 0
+        ) / 2
+
+      await this.poa.claimTimeShareTokens(amountToClaim, {
         from: buyer
       })
 
       const tstBalance = await this.tst.balanceOf(buyer)
-      tstBalance.should.be.bignumber.equal(timeShareBalanceAfter5Blocks / 2)
+      tstBalance.should.be.bignumber.equal(amountToClaim)
 
       const tsBalance = await this.poa.timeShareBalanceOf(buyer)
-      tsBalance.should.be.bignumber.equal(timeShareBalanceAfter5Blocks / 2)
+      tsBalance.should.be.bignumber.equal(amountToClaim)
     })
 
     it('emits ClaimTimeShareTokens event', async () => {
