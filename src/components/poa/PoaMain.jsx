@@ -3,14 +3,13 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import poaActions from 'actions/poa'
-import PropertyCard from 'components/PropertyCard'
+import PropertyCard from 'components/common/PropertyCard'
 import PoaLayout from 'components/poa/PoaLayout'
-import PoaActions from 'components/poa/PoaActions'
+import PoaOperations from 'components/poa/PoaOperations'
 
 const mapStateToProps = state => {
   return {
     metaData: state.poa.metaData,
-    web3Initialized: state.web3.web3Instance
   }
 }
 
@@ -38,7 +37,7 @@ class PoaMain extends React.Component {
     return (    
       <PoaLayout 
         meta={<PropertyCard image={metaData.photoUrl} description={metaData.description} />} 
-        actions={<PoaActions />}
+        actions={<PoaOperations />}
       />
     )
   }

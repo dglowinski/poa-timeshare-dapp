@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router'
 import MainLaout from 'components/MainLayout'
-import PoaMain from 'components/PoaMain'
-import TstMain from 'components/TstMain'
+import PoaMain from 'components/poa/PoaMain'
+import TstMain from 'components/tst/TstMain'
 import Welcome from 'components/Welcome'
 
 class App extends Component {
