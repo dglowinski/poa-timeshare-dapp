@@ -12,7 +12,8 @@
     "test": "truffle test",
     "precommit": "lint-staged",
     "coverage": "COVERAGE=1 ./node_modules/.bin/solidity-coverage",
-    "ropsten": "truffle migrate --network ropsten --reset | tee ./ropsten.log",
+    "ropsten:reset": "truffle migrate --network ropsten --reset | tee ./ropsten.log",
+    "ropsten": "truffle migrate --network ropsten | tee ./ropsten.log",
     "lint:check": "eslint . --ext=js,jsx;  exit 0",
     "lint:fix": "eslint . --ext=js,jsx --fix;  exit 0"
   },

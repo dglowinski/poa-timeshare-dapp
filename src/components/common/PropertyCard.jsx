@@ -17,7 +17,7 @@ const styles = {
   },
 };
 
-function SimpleMediaCard(props) {
+const PropertyCard = props => {
   const { classes, image, description } = props;
   return (
     <div>
@@ -29,7 +29,7 @@ function SimpleMediaCard(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">
-            Token meta data
+            Property details
           </Typography>
           <Typography component="p">
             {description}
@@ -40,10 +40,10 @@ function SimpleMediaCard(props) {
   );
 }
 
-SimpleMediaCard.propTypes = {
+PropertyCard.propTypes = {
   classes: PropTypes.object.isRequired,
   image: PropTypes.string,
   descrition: PropTypes.string,
 };
 
-export default withStyles(styles)(SimpleMediaCard);
+export default withStyles(styles)(PropertyCard);

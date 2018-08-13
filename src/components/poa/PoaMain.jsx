@@ -9,15 +9,15 @@ import PoaOperations from 'components/poa/PoaOperations'
 
 const mapStateToProps = state => {
   return {
-    metaData: state.poa.metaData,
+    metaData: state.poa.tokenDetails.metaData,
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  let { getMetaData } = bindActionCreators(poaActions, dispatch)
+  let { getTokenDetails } = bindActionCreators(poaActions, dispatch)
   
   return {
-    getMetaData
+    getTokenDetails
   }
 }
 
@@ -26,9 +26,9 @@ class PoaMain extends React.Component {
   state = {}
 
   componentDidMount() {
-    const { getMetaData } = this.props
+    const { getTokenDetails } = this.props
 
-    getMetaData()
+    getTokenDetails()
   }
 
   render() {
@@ -45,7 +45,7 @@ class PoaMain extends React.Component {
 
 PoaMain.propTypes = {
   metaData: PropTypes.object,
-  getMetaData: PropTypes.func.isRequired,
+  getTokenDetails: PropTypes.func.isRequired,
 }
 
 PoaMain.defaultProps = {

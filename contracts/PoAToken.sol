@@ -46,6 +46,23 @@ contract PoAToken is PausableToken, DetailedERC20 {
         public
         DetailedERC20("PoA Token", "PoA", 18)
     {
+        require(
+            _propertySeller != address(0),
+            "seller must be set"
+        );
+        require(
+            _totalSupply > 0, 
+            "total supply must be set"
+        );
+        require(
+            _tokensForEther > 0, 
+            "price must be set"
+        );
+        require(
+            bytes(_metaData).length > 0, 
+            "meta data must be set"
+        );
+
         propertySeller = _propertySeller;
         totalSupply_ = _totalSupply;
         tokensForEther = _tokensForEther;
@@ -77,8 +94,10 @@ contract PoAToken is PausableToken, DetailedERC20 {
 
         updateTimeShare(propertySeller);
         updateTimeShare(msg.sender);
-        
+
         propertySeller.transfer(msg.value);
+
+        emit Transfer(propertySeller, msg.sender, buyAmount);
     }
 
     ///@notice create TST for the message sender from available balance 
