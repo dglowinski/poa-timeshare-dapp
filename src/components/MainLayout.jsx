@@ -18,7 +18,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import StoreIcon from '@material-ui/icons/Store'
 import AlarmIcon from '@material-ui/icons/Alarm'
+import Snackbar from '@material-ui/core/Snackbar'
 import SentimentSatisfiedAlt from '@material-ui/icons/SentimentSatisfiedAlt'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux'
+import noticeActions from 'actions/notice'
 
 const drawerWidth = 240
 
@@ -101,7 +105,7 @@ class MiniDrawer extends React.Component {
   }
 
   render() {
-    const { classes, theme, children } = this.props
+    const { classes, theme, children, noticeMessage, noticeClear } = this.props
 
     return (
       <div className={classes.root}>
@@ -181,6 +185,16 @@ class MiniDrawer extends React.Component {
           <div className={classes.toolbar} />
           {children}
         </main>
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          open={Boolean(noticeMessage)}
+          onClose={noticeClear}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          autoHideDuration={2500}
+          message={<span id="message-id">{noticeMessage}</span>}
+        />
       </div>
     )
   }
@@ -192,4 +206,16 @@ MiniDrawer.propTypes = {
   children: PropTypes.array
 }
 
-export default withStyles(styles, { withTheme: true })(MiniDrawer)
+const mapStateToProps = state => {
+  return {
+    noticeMessage: state.notice.noticeMessage
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  const { noticeClear } = bindActionCreators(noticeActions, dispatch)
+  return {
+    noticeClear
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(MiniDrawer))

@@ -7,6 +7,8 @@ import Welcome from 'components/Welcome'
 
 class App extends Component {
   render() {
+    const { errorMsg, errorClear } = this.props
+
     return (
       <MainLaout>
         <Route exact={true} path="/" component={Welcome} />

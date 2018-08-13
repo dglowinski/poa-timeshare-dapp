@@ -32,11 +32,11 @@ class PoaMain extends React.Component {
   }
 
   render() {
-    const { metaData } = this.props
+    const { metaData: {photoUrl, description} } = this.props
 
     return (    
       <PoaLayout 
-        meta={<PropertyCard image={metaData.photoUrl} description={metaData.description} />} 
+        meta={<PropertyCard image={photoUrl} description={description} />} 
         actions={<PoaOperations />}
       />
     )

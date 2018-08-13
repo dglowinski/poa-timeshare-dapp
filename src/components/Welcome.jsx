@@ -1,3 +1,4 @@
 import React from 'react'
 
-export default () => <div>Pleas log in to MetaMask and connect to Ropsten testnet</div>
+export default () => <div>
+  Please log in to MetaMask and connect to Ropsten testnet. Then check out the token pages :)</div>

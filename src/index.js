@@ -14,8 +14,6 @@ import store from './store'
 // Initialize web3 and set in Redux.
 getWeb3
   .then(() => {
-    console.log('Web3 initialized!')
-
     ReactDOM.render(
       <Provider store={store}>
         <Router>
@@ -26,5 +24,8 @@ getWeb3
     )
   })
   .catch(() => {
-    console.log('Error in web3 initialization.')
+    ReactDOM.render(
+      <div>Failed to initialize web3</div>,
+      document.getElementById('root')
+    )
   })

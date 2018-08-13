@@ -4,7 +4,12 @@ import {
   POA_SET_METAMASK_BALANCE,
   POA_SET_BUY_LOADING,
   POA_UNSET_BUY_LOADING,
-  POA_SET_AVAILABLE
+  POA_SET_AVAILABLE,
+  POA_SET_CLAIM_LOADING,
+  POA_UNSET_CLAIM_LOADING,
+  POA_SET_CLAIMABLE,
+  POA_SET_TRANSFER_LOADING,
+  POA_UNSET_TRANSFER_LOADING
 } from 'constants/actionTypes'
 
 const initialState = {
@@ -43,6 +48,32 @@ export default (state = initialState, action) => {
       return {
         ...state,
         available: action.amount
+      }
+    case POA_SET_CLAIM_LOADING:
+      return {
+        ...state,
+        claimLoading: true
+      }
+    case POA_UNSET_CLAIM_LOADING:
+      return {
+        ...state,
+        claimLoading: false
+      }
+    case POA_SET_CLAIMABLE:
+      return {
+        ...state,
+        claimable: action.amount
+      }
+    case POA_SET_TRANSFER_LOADING:
+      console.log('here')
+      return {
+        ...state,
+        transferLoading: true
+      }
+    case POA_UNSET_TRANSFER_LOADING:
+      return {
+        ...state,
+        transferLoading: false
       }
     default:
       return state
