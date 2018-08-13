@@ -7,39 +7,23 @@ const _setMetaData = metaData => ({ type: POA_SET_META_DATA, metaData })
 //const _showError = error => ({ type: SHOW_ERROR, error })
 
 const getMetaData = () => {
-  console.log('here')
-  let web3 = store.getState().web3.web3Instance
-  console.log('web3: ', web3)
+  return function(dispatch, getState) {
+    let web3 = getState().web3.web3Instance
 
-  if (web3) {
-    return function(dispatch) {
+    if (web3) {
       const poaToken = contract(PoaTokenContract)
       poaToken.setProvider(web3.currentProvider)
 
-      let poaInstance
-
-      // Get current ethereum wallet.
-      web3.eth.getCoinbase((error, coinbase) => {
-        console.log('coinbase: ', coinbase)
-        // Log errors, if any.
-        if (error) {
-          console.error(error)
-        }
-
-        poaToken.deployed().then(instance => {
-          poaInstance = instance
-
-          poaInstance
-            .getMetaData()
-            .then(metaData => dispatch(_setMetaData(metaData)))
-            .catch(error => {
-              // If error...
-            })
+      poaToken
+        .deployed()
+        .then(instance => instance.getMetaData())
+        .then(metaData => dispatch(_setMetaData(metaData)))
+        .catch(error => {
+          // If error...
         })
-      })
+    } else {
+      console.error('Web3 is not initialized.')
     }
-  } else {
-    console.error('Web3 is not initialized.')
   }
 }
 

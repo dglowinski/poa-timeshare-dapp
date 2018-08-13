@@ -3,16 +3,18 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import poaActions from 'actions/poa'
+import PropertyCard from 'components/PropertyCard'
+import PoaLayout from 'components/poa/PoaLayout'
+import PoaActions from 'components/poa/PoaActions'
 
 const mapStateToProps = state => {
-  console.log('state: ', state);
   return {
-    metaData: state.poa.metaData
+    metaData: state.poa.metaData,
+    web3Initialized: state.web3.web3Instance
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  console.log('poaActions: ', poaActions);
   let { getMetaData } = bindActionCreators(poaActions, dispatch)
   
   return {
@@ -20,25 +22,36 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
+
 class PoaMain extends React.Component {
   state = {}
 
   componentDidMount() {
-    const { metaData, getMetaData } = this.props
+    const { getMetaData } = this.props
 
-    !metaData && getMetaData()
+    getMetaData()
   }
 
   render() {
     const { metaData } = this.props
-    return <div>{metaData}</div>
+
+    return (    
+      <PoaLayout 
+        meta={<PropertyCard image={metaData.photoUrl} description={metaData.description} />} 
+        actions={<PoaActions />}
+      />
+    )
   }
 }
 
 PoaMain.propTypes = {
-  metaData: PropTypes.string,
-  getMetaData: PropTypes.func.isRequired
+  metaData: PropTypes.object,
+  getMetaData: PropTypes.func.isRequired,
 }
+
+PoaMain.defaultProps = {
+  metaData: {}
+};
 
 export default connect(
   mapStateToProps,

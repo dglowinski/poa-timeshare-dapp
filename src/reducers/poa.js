@@ -5,7 +5,7 @@ export default (state = {}, action) => {
     case POA_SET_META_DATA:
       return {
         ...state,
-        metaData: action.metaData
+        metaData: JSON.parse(action.metaData)
       }
     default:
       return state
