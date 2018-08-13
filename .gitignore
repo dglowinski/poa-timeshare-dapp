@@ -5,4 +5,5 @@ coverage
 coverage.json
 
 ropsten.log
-.env
+
+build_webpack

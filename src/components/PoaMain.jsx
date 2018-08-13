@@ -12,7 +12,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
+  console.log('poaActions: ', poaActions);
   let { getMetaData } = bindActionCreators(poaActions, dispatch)
+  
   return {
     getMetaData
   }

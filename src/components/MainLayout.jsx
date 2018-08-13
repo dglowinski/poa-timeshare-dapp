@@ -18,6 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import StoreIcon from '@material-ui/icons/Store'
 import AlarmIcon from '@material-ui/icons/Alarm'
+import SentimentSatisfiedAlt from '@material-ui/icons/SentimentSatisfiedAlt'
 
 const drawerWidth = 240
 
@@ -150,6 +151,14 @@ class MiniDrawer extends React.Component {
           <Divider />
           <List>
             <Link to="/">
+              <ListItem button>
+                <ListItemIcon>
+                  <SentimentSatisfiedAlt />
+                </ListItemIcon>
+                <ListItemText primary="Welcome" />
+              </ListItem>
+            </Link>
+            <Link to="/poa">
               <ListItem button>
                 <ListItemIcon>
                   <StoreIcon />

@@ -3,13 +3,15 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import MainLaout from 'components/MainLayout'
 import PoaMain from 'components/PoaMain'
 import TstMain from 'components/TstMain'
+import Welcome from 'components/Welcome'
 
 class App extends Component {
   render() {
     return (
       <Router>
         <MainLaout>
-          <Route exact={true} path="/" component={PoaMain} />
+          <Route exact={true} path="/" component={Welcome} />
+          <Route path="/poa" component={PoaMain} />
           <Route path="/tst" component={TstMain} />
         </MainLaout>
       </Router>

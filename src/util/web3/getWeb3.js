@@ -34,7 +34,6 @@ const getWeb3 = new Promise(function(resolve) {
       const provider = new Web3.providers.HttpProvider('http://127.0.0.1:9545')
 
       web3 = new Web3(provider)
-
       results = {
         web3Instance: web3
       }
