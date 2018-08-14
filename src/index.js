@@ -4,8 +4,6 @@ import { HashRouter as Router, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import getWeb3 from './util/getWeb3'
 
-import 'index.css'
-
 import App from './App'
 
 import store from './store'
