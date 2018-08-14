@@ -3,7 +3,6 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
@@ -34,7 +33,6 @@ class TstBook extends React.Component {
       accessKey,
       
     } = this.props
-    console.log('accessKey:1 ', accessKey);
 
     const { day } = this.state
 

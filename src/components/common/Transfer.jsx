@@ -34,7 +34,7 @@ class PoaBuyToken extends React.Component {
     this.setState({
       amount: isError ? 0 : event.target.value,
       errorAmount: isError,
-      labelAmount: isError ? "Invalid amount" : "Enter Ξ amount",
+      labelAmount: isError ? "Invalid amount" : "Enter amount",
     })
   }
 
@@ -71,7 +71,7 @@ class PoaBuyToken extends React.Component {
         }
         <div>
           <Typography className={classes.title} color="textSecondary" style={{display: 'inline-block'}}>
-            Balance of MetaMask account: <b>{available || "-"}</b>
+            Balance of current account: <b>{available || "-"}</b>
           </Typography>
           <Button color="primary" className={classes.button} onClick={getAvailable}>
             Check

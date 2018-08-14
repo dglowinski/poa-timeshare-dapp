@@ -6,7 +6,7 @@ const { advanceToBlock } = require('./helpers/advanceToBlock')
 const toToken = require('./helpers/toToken')
 
 const BigNumber = web3.BigNumber
-
+console.log(web3.personal)
 require('chai')
   .use(require('chai-bignumber')(BigNumber))
   .should()

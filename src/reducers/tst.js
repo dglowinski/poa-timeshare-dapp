@@ -7,7 +7,8 @@ import {
   TST_SET_BOOKED_DAYS,
   TST_SET_BOOK_LOADING,
   TST_UNSET_BOOK_LOADING,
-  TST_SET_KEY
+  TST_SET_KEY,
+  TST_SET_VALID
 } from 'constants/actionTypes'
 
 const initialState = {
@@ -43,17 +44,15 @@ export default (state = initialState, action) => {
         transferLoading: false
       }
     case TST_SET_BOOKED_DAYS:
-      const booked = action.days
-        .map((isBooked, index) => ({
-          date: new Date(action.year, Number(action.month) - 1, index + 1),
-          isBooked
-        }))
-        .filter(day => day.isBooked)
-        .map(day => day.date)
-
       return {
         ...state,
-        booked
+        booked: action.days
+          .map((isBooked, index) => ({
+            date: new Date(action.year, Number(action.month) - 1, index + 1),
+            isBooked
+          }))
+          .filter(day => day.isBooked)
+          .map(day => day.date)
       }
     case TST_SET_BOOK_LOADING:
       return {
@@ -66,10 +65,14 @@ export default (state = initialState, action) => {
         bookLoading: false
       }
     case TST_SET_KEY:
-      console.log('btoa(action.key): ', btoa(action.key))
       return {
         ...state,
         accessKey: btoa(action.key)
+      }
+    case TST_SET_VALID:
+      return {
+        ...state,
+        verified: action.valid
       }
     default:
       return state

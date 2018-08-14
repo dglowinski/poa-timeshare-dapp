@@ -11,7 +11,9 @@ import Balance from 'components/common/Balance'
 import Transfer from 'components/common/Transfer'
 import Details from 'components/common/Details'
 import TstBook from 'components/tst/TstBook'
+import TstVerify from 'components/tst/TstVerify'
 import tstActions from 'actions/tst'
+
 
 const mapStateToProps = state => {
   return {
@@ -101,15 +103,16 @@ class TstOperations extends React.Component {
             <Balance balance={balance} getAddressBalance={getAddressBalance} isAddress={isAddress} />
             <Divider/>
             <Transfer handleTransfer={transfer} loading={transferLoading} getAvailable={getMetaMaskBalance} available={metaMaskBalance} isAddress={isAddress}/>
-            <Divider/>
+            
             <TstBook checkBooking={checkBooking} booked={booked} checkMonth={checkMonth} bookDay={bookDay} loading={bookLoading} accessKey={accessKey}/>
+            <Divider/>
+            <TstVerify verified={verified} verifyKey={verifyKey} />
           </CardContent>
         </Card>
       </div>
     );
   }
 }
-//<TstVerify verified={verified} verifyKey={verifyKey}>
 
 TstOperations.propTypes = {
   classes: PropTypes.object.isRequired,

@@ -1,4 +1,4 @@
-import store from '../../store'
+import store from '../store'
 import Web3 from 'web3'
 
 export const WEB3_INITIALIZED = 'WEB3_INITIALIZED'
@@ -31,14 +31,14 @@ const getWeb3 = new Promise(function(resolve) {
     } else {
       // Fallback to localhost if no web3 injection. We've configured this to
       // use the development console's port by default.
-      const provider = new Web3.providers.HttpProvider('http://127.0.0.1:9545')
+      const provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545')
 
       web3 = new Web3(provider)
       results = {
         web3Instance: web3
       }
 
-      console.log('No web3 instance injected, using Local web3.')
+      //console.log('No web3 instance injected, using Local web3.')
 
       resolve(store.dispatch(web3Initialized(results)))
     }

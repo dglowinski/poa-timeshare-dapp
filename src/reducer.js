@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import web3Reducer from './util/web3/web3Reducer'
+import web3Reducer from './util/web3Reducer'
 import poaReducer from 'reducers/poa'
 import tstReducer from 'reducers/tst'
 import noticeReducer from 'reducers/notice'

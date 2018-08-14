@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter as Router, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import getWeb3 from './util/web3/getWeb3'
+import getWeb3 from './util/getWeb3'
 
 import 'index.css'
 

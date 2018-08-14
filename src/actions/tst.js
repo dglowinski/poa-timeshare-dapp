@@ -2,7 +2,7 @@ import contract from 'truffle-contract'
 import moment from 'moment'
 import TstTokenContract from '../../build/contracts/TimeShareToken.json'
 import PoaTokenContract from '../../build/contracts/PoAToken.json'
-
+import fixProvider from '../util/fixProvider'
 import {
   NOTICE_MESSAGE,
   TST_SET_TOKEN_DETAILS,
@@ -13,7 +13,8 @@ import {
   TST_SET_BOOKED_DAYS,
   TST_SET_BOOK_LOADING,
   TST_UNSET_BOOK_LOADING,
-  TST_SET_KEY
+  TST_SET_KEY,
+  TST_SET_VALID
 } from 'constants/actionTypes'
 
 const setTokenDetails = tokenDetails => ({
@@ -39,6 +40,7 @@ const setBooked = (year, month, days) => ({
   days
 })
 const setKey = key => ({ type: TST_SET_KEY, key })
+const setValid = valid => ({ type: TST_SET_VALID, valid })
 
 const showError = error => {
   const message =
@@ -57,9 +59,11 @@ const tstDeployedMemoize = () => {
     if (!cachedDeployed) {
       const tstToken = contract(TstTokenContract)
       tstToken.setProvider(web3.currentProvider)
+      fixProvider(tstToken)
 
       const poaToken = contract(PoaTokenContract)
       poaToken.setProvider(web3.currentProvider)
+      fixProvider(poaToken)
 
       cachedDeployed = poaToken
         .deployed()
@@ -148,7 +152,8 @@ const transfer = (toAddress, amount) => (dispatch, getState) => {
     .then(instance =>
       instance.transfer(toAddress, web3.utils.toWei(String(amount), 'ether'), {
         from: fromAddress,
-        gasPrice: web3.utils.toWei('20', 'gwei')
+        gasPrice: web3.utils.toWei('20', 'gwei'),
+        gas: 300000
       })
     )
     .then(tx => {
@@ -186,13 +191,14 @@ const bookDay = day => (dispatch, getState) => {
   if (!day) return
 
   day = moment.utc(day)
-  console.log('day: ', day)
 
   const web3 = getState().web3.web3Instance
 
   dispatch(setBookLoading())
 
   let address
+  const time = `${day.format('YYYY')}-${day.format('MM')}-${day.format('DD')}`
+  const timestamp = moment.utc(time).unix()
 
   web3.eth
     .getCoinbase()
@@ -203,15 +209,16 @@ const bookDay = day => (dispatch, getState) => {
     .then(instance =>
       instance.bookDay(day.format('YYYY'), day.format('MM'), day.format('DD'), {
         from: address,
-        gasPrice: web3.utils.toWei('20', 'gwei')
+        gasPrice: web3.utils.toWei('20', 'gwei'),
+        gas: 300000
       })
     )
     .then(tx => {
       if (tx.receipt.status === '0x0') throw new Error('Transaction failed')
-      return web3.eth.sign(web3.utils.soliditySha3(String(day.unix())), address)
+      return web3.eth.sign(web3.utils.soliditySha3(String(timestamp)), address)
     })
     .then(signature => {
-      const key = JSON.stringify({ timestamp: day.unix(), signature })
+      const key = JSON.stringify({ timestamp: timestamp, signature })
 
       dispatch(setKey(key))
       dispatch(
@@ -230,7 +237,28 @@ const bookDay = day => (dispatch, getState) => {
     })
 }
 
-const verifyKey = key => (dispatch, getState) => {}
+const verifyKey = (day, key) => (dispatch, getState) => {
+  try {
+    key = JSON.parse(atob(key))
+  } catch (e) {
+    return
+  }
+
+  const date = moment.utc(day)
+  const time = `${date.format('YYYY')}-${date.format('MM')}-${date.format(
+    'DD'
+  )}`
+  const timestamp = moment.utc(time).unix()
+
+  if (key.timestamp != timestamp) return
+
+  tstDeployed(getState().web3.web3Instance)
+    .then(instance => instance.isValidAccessKey(key.timestamp, key.signature))
+    .then(isValid => {
+      isValid && dispatch(setValid(isValid))
+    })
+    .catch(error => dispatch(showError(error)))
+}
 
 export default {
   getTokenDetails,

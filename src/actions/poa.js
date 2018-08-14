@@ -1,5 +1,6 @@
 import contract from 'truffle-contract'
 import PoaTokenContract from '../../build/contracts/PoAToken.json'
+import fixProvider from 'util/fixProvider'
 
 import {
   NOTICE_MESSAGE,
@@ -48,7 +49,10 @@ const poaDeployed = web3 => {
   if (!web3) throw new Error('Web3 is not initialized.')
 
   const poaToken = contract(PoaTokenContract)
+
   poaToken.setProvider(web3.currentProvider)
+
+  fixProvider(poaToken)
 
   return poaToken.deployed()
 }
@@ -105,7 +109,7 @@ const getMetaMaskBalance = () => (dispatch, getState) => {
     .then(instance => instance.balanceOf(address))
     .then(balance => {
       dispatch(
-        setMetaMaskBalance(web3.utils.fromWei(balance.toString(), 'ether'))
+        setMetaMaskBalance(web3.utils.fromWei(balance.toPrecision(), 'ether'))
       )
     })
     .catch(error => dispatch(showError(error)))
@@ -128,6 +132,7 @@ const buyToken = amount => (dispatch, getState) => {
       instance.sendTransaction({
         value: web3.utils.toWei(String(amount), 'ether'),
         from: address,
+        gas: 300000,
         gasPrice: web3.utils.toWei('20', 'gwei')
       })
     )
@@ -171,7 +176,8 @@ const claimTst = amount => (dispatch, getState) => {
     .then(instance =>
       instance.claimTimeShareTokens(web3.utils.toWei(String(amount), 'ether'), {
         from: address,
-        gasPrice: web3.utils.toWei('20', 'gwei')
+        gasPrice: web3.utils.toWei('20', 'gwei'),
+        gas: 300000
       })
     )
     .then(tx => {
@@ -220,7 +226,8 @@ const transfer = (toAddress, amount) => (dispatch, getState) => {
     .then(instance =>
       instance.transfer(toAddress, web3.utils.toWei(String(amount), 'ether'), {
         from: fromAddress,
-        gasPrice: web3.utils.toWei('20', 'gwei')
+        gasPrice: web3.utils.toWei('20', 'gwei'),
+        gas: 300000
       })
     )
     .then(tx => {

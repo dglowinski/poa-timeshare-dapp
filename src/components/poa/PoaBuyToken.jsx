@@ -86,15 +86,13 @@ class PoaBuyToken extends React.Component {
             <DialogContentText id="alert-dialog-description">
               A notice on the price of the token. It's pretty cheap, 1 Ether will buy the whole supply. 
               This is because every "day", which is 2 blocks, total supply of tokens generates 1 Time Share Token.
-              So in order to see this in action and not have to wait too long (or spend too much precious fake ether), 
+              So if you are on Ropsten in order to see this in action and not have to wait too long (or spend too much precious fake ether), 
               you need to own a large part of the total supply.
               If you buy 50% for 0.5 Ether, you will be able to claim 1 TST in 4 blocks. Just please have in mind, that this
               way the supply will quickly run out, and the next person will not be able to play, unless you transfer
               them some of your tokens.
-              <br />
-              If you run locally, you can always 
-              <br />
-              <code>npm run ropsten:reset</code>
+              <br/>&nbsp;<br/>
+              If you run locally, its best to buy all tokens 
             </DialogContentText>
           </DialogContent>
           <DialogActions>
