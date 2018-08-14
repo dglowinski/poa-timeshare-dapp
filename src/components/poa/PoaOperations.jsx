@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import Typography from '@material-ui/core/Typography'
+import Divider from '@material-ui/core/Divider'
 import Balance from 'components/common/Balance'
 import PoaBuyToken from 'components/poa/PoaBuyToken'
 import PoaClaimToken from 'components/poa/PoaClaimToken'
@@ -24,16 +24,17 @@ const mapStateToProps = state => {
     claimable: state.poa.claimable,
     claimLoading: state.poa.claimLoading,
     transferLoading: state.poa.transferLoading,
-    isAddress: state.web3.web3Instance && state.web3.web3Instance.utils.isAddress,
+    isAddress:
+      state.web3.web3Instance && state.web3.web3Instance.utils.isAddress
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  const { 
+  const {
     getAddressBalance,
-    getMetaMaskBalance, 
-    getTokenDetails, 
-    buyToken, 
+    getMetaMaskBalance,
+    getTokenDetails,
+    buyToken,
     getAvailable,
     claimTst,
     getClaimable,
@@ -55,33 +56,32 @@ const mapDispatchToProps = dispatch => {
 const styles = {
   card: {
     minWidth: 275,
-    height: '100%',
+    height: '100%'
   },
   title: {
     marginBottom: 16,
     fontSize: 14,
-    marginTop:30
-  },
-};
+    marginTop: 30
+  }
+}
 
 class PoaOperations extends React.Component {
-
   componentDidMount() {
     const { getMetaMaskBalance, getAvailable, getClaimable } = this.props
     getMetaMaskBalance()
     getAvailable()
     getClaimable()
   }
- 
+
   render() {
-    const { 
-      classes, 
-      buyToken, 
-      buyLoading, 
-      metaMaskBalance, 
-      tokenDetails, 
-      getAvailable, 
-      available, 
+    const {
+      classes,
+      buyToken,
+      buyLoading,
+      metaMaskBalance,
+      tokenDetails,
+      getAvailable,
+      available,
       getMetaMaskBalance,
       claimTst,
       getClaimable,
@@ -92,7 +92,7 @@ class PoaOperations extends React.Component {
       isAddress,
       balance,
       getAddressBalance
-    } = this.props;
+    } = this.props
 
     return (
       <div>
@@ -101,19 +101,39 @@ class PoaOperations extends React.Component {
             <Typography variant="headline" component="h2">
               PoA token
             </Typography>
-            <Details details={tokenDetails} classes={classes}/>
-            <Divider/>
-            <Balance balance={balance} getAddressBalance={getAddressBalance} isAddress={isAddress} />
-            <Divider/>
-            <PoaBuyToken handleBuy={buyToken} loading={buyLoading} getAvailable={getAvailable} available={available}/>
-            <Divider/>
-            <Transfer handleTransfer={transfer} loading={transferLoading} getAvailable={getMetaMaskBalance} available={metaMaskBalance} isAddress={isAddress}/>
-            <Divider/>
-            <PoaClaimToken handleClaim={claimTst} loading={claimLoading} getAvailable={getClaimable} available={claimable}/>
+            <Details details={tokenDetails} classes={classes} />
+            <Divider />
+            <Balance
+              balance={balance}
+              getAddressBalance={getAddressBalance}
+              isAddress={isAddress}
+            />
+            <Divider />
+            <PoaBuyToken
+              handleBuy={buyToken}
+              loading={buyLoading}
+              getAvailable={getAvailable}
+              available={available}
+            />
+            <Divider />
+            <Transfer
+              handleTransfer={transfer}
+              loading={transferLoading}
+              getAvailable={getMetaMaskBalance}
+              available={metaMaskBalance}
+              isAddress={isAddress}
+            />
+            <Divider />
+            <PoaClaimToken
+              handleClaim={claimTst}
+              loading={claimLoading}
+              getAvailable={getClaimable}
+              available={claimable}
+            />
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 }
 
@@ -128,7 +148,10 @@ PoaOperations.propTypes = {
   claimTst: PropTypes.func.isRequired,
   claimLoading: PropTypes.bool,
   getClaimable: PropTypes.func.isRequired,
-  claimable: PropTypes.string,
-};
+  claimable: PropTypes.string
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PoaOperations));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(PoaOperations))

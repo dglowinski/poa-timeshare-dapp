@@ -1,18 +1,18 @@
 import React from 'react'
-import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
 import poaActions from 'actions/poa'
 import Section from 'components/common/Section'
 import styles from 'styles/operations'
 
 class Balance extends React.Component {
   state = {
-    label: "Enter ethereum address",
-    value: ""
+    label: 'Enter ethereum address',
+    value: ''
   }
 
   handleChange = event => {
@@ -22,7 +22,7 @@ class Balance extends React.Component {
     this.setState({
       value: event.target.value,
       error: isError,
-      label: isError ? "Invalid address" : "Enter ethereum address"
+      label: isError ? 'Invalid address' : 'Enter ethereum address'
     })
 
     !isError && getAddressBalance(event.target.value)
@@ -34,7 +34,10 @@ class Balance extends React.Component {
 
     return (
       <div>
-        <Section heading="Check address balance" icon="account_balance_wallet" /> 
+        <Section
+          heading="Check address balance"
+          icon="account_balance_wallet"
+        />
         <TextField
           error={error}
           id="address"
@@ -45,7 +48,7 @@ class Balance extends React.Component {
           margin="normal"
         />
         <Typography className={classes.title} color="textSecondary">
-          Balance: <b>{balance || "-"}</b>
+          Balance: <b>{balance || '-'}</b>
         </Typography>
       </div>
     )
@@ -55,7 +58,7 @@ class Balance extends React.Component {
 Balance.propTypes = {
   classes: PropTypes.object.isRequired,
   getAddressBalance: PropTypes.func.isRequired,
-  balance: PropTypes.string,
+  balance: PropTypes.string
 }
 
 export default withStyles(styles)(Balance)

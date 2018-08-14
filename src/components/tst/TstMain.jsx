@@ -17,11 +17,13 @@ class TstMain extends React.Component {
   }
 
   render() {
-   const { metaData: {photoUrl, description} } = this.props
+    const {
+      metaData: { photoUrl, description }
+    } = this.props
 
-    return (    
-      <TokenLayout 
-        meta={<PropertyCard image={photoUrl} description={description} />} 
+    return (
+      <TokenLayout
+        meta={<PropertyCard image={photoUrl} description={description} />}
         actions={<TstOperations />}
       />
     )
@@ -30,22 +32,22 @@ class TstMain extends React.Component {
 
 TstMain.propTypes = {
   metaData: PropTypes.object,
-  getTokenDetails: PropTypes.func.isRequired,
+  getTokenDetails: PropTypes.func.isRequired
 }
 
 TstMain.defaultProps = {
   metaData: {}
-};
+}
 
 const mapStateToProps = state => {
   return {
-    metaData: state.tst.tokenDetails.metaData,
+    metaData: state.tst.tokenDetails.metaData
   }
 }
 
 const mapDispatchToProps = dispatch => {
   let { getTokenDetails } = bindActionCreators(tstActions, dispatch)
-  
+
   return {
     getTokenDetails
   }

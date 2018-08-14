@@ -1,19 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import Typography from '@material-ui/core/Typography'
+import Divider from '@material-ui/core/Divider'
 import Balance from 'components/common/Balance'
 import Transfer from 'components/common/Transfer'
 import Details from 'components/common/Details'
 import TstBook from 'components/tst/TstBook'
 import TstVerify from 'components/tst/TstVerify'
 import tstActions from 'actions/tst'
-
 
 const mapStateToProps = state => {
   return {
@@ -25,19 +24,20 @@ const mapStateToProps = state => {
     bookLoading: state.tst.bookLoading,
     verified: state.tst.verified,
     accessKey: state.tst.accessKey,
-    isAddress: state.web3.web3Instance && state.web3.web3Instance.utils.isAddress,
+    isAddress:
+      state.web3.web3Instance && state.web3.web3Instance.utils.isAddress
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  const { 
+  const {
     getAddressBalance,
-    getMetaMaskBalance, 
-    getTokenDetails, 
+    getMetaMaskBalance,
+    getTokenDetails,
     transfer,
     bookDay,
     checkMonth,
-    verifyKey,
+    verifyKey
   } = bindActionCreators(tstActions, dispatch)
 
   return {
@@ -47,34 +47,33 @@ const mapDispatchToProps = dispatch => {
     transfer,
     bookDay,
     checkMonth,
-    verifyKey,
+    verifyKey
   }
 }
 
 const styles = {
   card: {
     minWidth: 275,
-    height: '100%',
+    height: '100%'
   },
   title: {
     marginBottom: 16,
     fontSize: 14,
-    marginTop:30
-  },
-};
+    marginTop: 30
+  }
+}
 
 class TstOperations extends React.Component {
-
   componentDidMount() {
     const { getMetaMaskBalance } = this.props
     getMetaMaskBalance()
   }
- 
+
   render() {
-    const { 
-      classes, 
-      metaMaskBalance, 
-      tokenDetails, 
+    const {
+      classes,
+      metaMaskBalance,
+      tokenDetails,
       getMetaMaskBalance,
       transfer,
       transferLoading,
@@ -89,7 +88,7 @@ class TstOperations extends React.Component {
       accessKey,
       verified,
       verifyKey
-    } = this.props;
+    } = this.props
 
     return (
       <div>
@@ -98,19 +97,36 @@ class TstOperations extends React.Component {
             <Typography variant="headline" component="h2">
               Time Share Token
             </Typography>
-            <Details details={tokenDetails} classes={classes}/>
-            <Divider/>
-            <Balance balance={balance} getAddressBalance={getAddressBalance} isAddress={isAddress} />
-            <Divider/>
-            <Transfer handleTransfer={transfer} loading={transferLoading} getAvailable={getMetaMaskBalance} available={metaMaskBalance} isAddress={isAddress}/>
-            
-            <TstBook checkBooking={checkBooking} booked={booked} checkMonth={checkMonth} bookDay={bookDay} loading={bookLoading} accessKey={accessKey}/>
-            <Divider/>
+            <Details details={tokenDetails} classes={classes} />
+            <Divider />
+            <Balance
+              balance={balance}
+              getAddressBalance={getAddressBalance}
+              isAddress={isAddress}
+            />
+            <Divider />
+            <Transfer
+              handleTransfer={transfer}
+              loading={transferLoading}
+              getAvailable={getMetaMaskBalance}
+              available={metaMaskBalance}
+              isAddress={isAddress}
+            />
+
+            <TstBook
+              checkBooking={checkBooking}
+              booked={booked}
+              checkMonth={checkMonth}
+              bookDay={bookDay}
+              loading={bookLoading}
+              accessKey={accessKey}
+            />
+            <Divider />
             <TstVerify verified={verified} verifyKey={verifyKey} />
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 }
 
@@ -124,7 +140,10 @@ TstOperations.propTypes = {
   checkMonth: PropTypes.func.isRequired,
   bookDay: PropTypes.func.isRequired,
   bookLoading: PropTypes.bool,
-  accessKey: PropTypes.string,
-};
+  accessKey: PropTypes.string
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TstOperations));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(TstOperations))

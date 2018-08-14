@@ -17,11 +17,13 @@ class PoaMain extends React.Component {
   }
 
   render() {
-    const { metaData: {photoUrl, description} } = this.props
+    const {
+      metaData: { photoUrl, description }
+    } = this.props
 
-    return (    
-      <TokenLayout 
-        meta={<PropertyCard image={photoUrl} description={description} />} 
+    return (
+      <TokenLayout
+        meta={<PropertyCard image={photoUrl} description={description} />}
         actions={<PoaOperations />}
       />
     )
@@ -30,23 +32,22 @@ class PoaMain extends React.Component {
 
 PoaMain.propTypes = {
   metaData: PropTypes.object,
-  getTokenDetails: PropTypes.func.isRequired,
+  getTokenDetails: PropTypes.func.isRequired
 }
 
 PoaMain.defaultProps = {
   metaData: {}
-};
-
+}
 
 const mapStateToProps = state => {
   return {
-    metaData: state.poa.tokenDetails.metaData,
+    metaData: state.poa.tokenDetails.metaData
   }
 }
 
 const mapDispatchToProps = dispatch => {
   let { getTokenDetails } = bindActionCreators(poaActions, dispatch)
-  
+
   return {
     getTokenDetails
   }

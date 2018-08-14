@@ -20,7 +20,7 @@ import StoreIcon from '@material-ui/icons/Store'
 import AlarmIcon from '@material-ui/icons/Alarm'
 import Snackbar from '@material-ui/core/Snackbar'
 import SentimentSatisfiedAlt from '@material-ui/icons/SentimentSatisfiedAlt'
-import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import noticeActions from 'actions/notice'
 
@@ -29,7 +29,7 @@ const drawerWidth = 240
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: "100%",
+    height: '100%',
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
@@ -186,11 +186,11 @@ class MainLayout extends React.Component {
           {children}
         </main>
         <Snackbar
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           open={Boolean(noticeMessage)}
           onClose={noticeClear}
           ContentProps={{
-            'aria-describedby': 'message-id',
+            'aria-describedby': 'message-id'
           }}
           autoHideDuration={2500}
           message={<span id="message-id">{noticeMessage}</span>}
@@ -218,4 +218,7 @@ const mapDispatchToProps = dispatch => {
     noticeClear
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(MainLayout))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles, { withTheme: true })(MainLayout))

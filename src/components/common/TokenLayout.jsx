@@ -1,17 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   control: {
-    padding: theme.spacing.unit * 200,
-  },
-});
+    padding: theme.spacing.unit * 200
+  }
+})
 
 const TokenLayout = ({ classes, meta, actions }) => (
   <Grid container className={classes.root} spacing={16}>
@@ -31,7 +30,7 @@ const TokenLayout = ({ classes, meta, actions }) => (
 TokenLayout.propTypes = {
   classes: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired,
-};
+  actions: PropTypes.object.isRequired
+}
 
-export default withStyles(styles)(TokenLayout);
+export default withStyles(styles)(TokenLayout)
