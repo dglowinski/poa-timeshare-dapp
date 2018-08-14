@@ -37,6 +37,7 @@ const unsetTransferLoading = () => ({ type: POA_UNSET_TRANSFER_LOADING })
 const setAvailable = amount => ({ type: POA_SET_AVAILABLE, amount })
 const setClaimable = amount => ({ type: POA_SET_CLAIMABLE, amount })
 const showError = error => {
+  // debugger
   const message =
     'ERROR: ' + error.message ||
     (typeof error === 'string' ? error : 'An error has occured')
@@ -93,20 +94,20 @@ const getAddressBalance = address => (dispatch, getState) => {
 
 const getMetaMaskBalance = () => (dispatch, getState) => {
   const web3 = getState().web3.web3Instance
+
   let address
 
-  web3.eth
-    .getCoinbase()
-    .then(coinbase => {
-      address = coinbase
-      return poaDeployed(web3)
-    })
+  web3.eth.getCoinbase().then(coinbase => {
+    address = coinbase
+    return poaDeployed(web3)
+  })
+  poaDeployed(web3)
     .then(instance => instance.balanceOf(address))
-    .then(balance =>
+    .then(balance => {
       dispatch(
         setMetaMaskBalance(web3.utils.fromWei(balance.toString(), 'ether'))
       )
-    )
+    })
     .catch(error => dispatch(showError(error)))
 }
 

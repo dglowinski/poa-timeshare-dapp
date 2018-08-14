@@ -29,7 +29,7 @@ const PropertyCard = props => {
         />
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">
-            Property details
+            Token meta data
           </Typography>
           <Typography component="p">
             {description}

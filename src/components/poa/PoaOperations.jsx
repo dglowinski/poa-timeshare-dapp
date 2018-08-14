@@ -54,11 +54,12 @@ const mapDispatchToProps = dispatch => {
 const styles = {
   card: {
     minWidth: 275,
-    height:500,
+    height: '100%',
   },
   title: {
     marginBottom: 16,
     fontSize: 14,
+    marginTop:30
   },
 };
 
@@ -98,7 +99,7 @@ class PoaOperations extends React.Component {
               PoA token interface
             </Typography>
 
-            <Typography className={classes.title} color="textSecondary" style={{marginTop:50}}>
+            <Typography className={classes.title} color="textSecondary" >
               Name: <b>{tokenDetails.name}</b> symbol: <b>{tokenDetails.symbol}</b> decimals: <b>{tokenDetails.decimals}</b>
               <span> <a target="blank" href={"https://ropsten.etherscan.io/address/"+tokenDetails.address}>Etherscan</a></span>
             </Typography>

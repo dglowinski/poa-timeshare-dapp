@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import poaActions from 'actions/poa'
+import Section from 'components/common/Section'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -65,9 +66,7 @@ class Balance extends React.Component {
 
     return (
       <div>
-        <Typography className={classes.title} color="textSecondary">
-          Get balance of address
-        </Typography>
+        <Section heading="Check address balance" icon="account_balance_wallet" /> 
         <TextField
           error={error}
           id="address"

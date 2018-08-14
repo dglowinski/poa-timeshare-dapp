@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
+import Section from 'components/common/Section'
 
 const styles = theme => ({
   title: {
@@ -60,9 +61,7 @@ class PoaBuyToken extends React.Component {
 
     return (
       <div>
-        <Typography className={classes.title} color="textSecondary">
-          Transfer tokens
-        </Typography>
+        <Section heading="Transfer" icon="swap_horiz" /> 
         <TextField
           error={errorAmount}
           id="amount"

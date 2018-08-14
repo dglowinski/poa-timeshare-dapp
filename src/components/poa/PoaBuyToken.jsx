@@ -11,6 +11,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import purple from '@material-ui/core/colors/purple';
+import Section from 'components/common/Section'
+
 
 const styles = theme => ({
   title: {
@@ -63,9 +65,7 @@ class PoaBuyToken extends React.Component {
 
     return (
       <div>
-        <Typography className={classes.title} color="textSecondary">
-          Buy tokens
-        </Typography>
+        <Section heading="Buy tokens" icon="shopping_cart" />
         <TextField
           error={error}
           id="amount"
