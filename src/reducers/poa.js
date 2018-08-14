@@ -65,7 +65,6 @@ export default (state = initialState, action) => {
         claimable: action.amount
       }
     case POA_SET_TRANSFER_LOADING:
-      console.log('here')
       return {
         ...state,
         transferLoading: true

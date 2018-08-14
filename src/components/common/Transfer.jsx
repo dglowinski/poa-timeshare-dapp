@@ -7,24 +7,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import purple from '@material-ui/core/colors/purple';
 import Section from 'components/common/Section'
-
-const styles = theme => ({
-  title: {
-    marginBottom: 16,
-    fontSize: 14,
-    display: "inline-block"
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginTop: 0,
-    width: 200,
-  },
-  progress: {
-    margin: theme.spacing.unit * 2,
-  },
-});
-
+import styles from 'styles/operations'
 
 class PoaBuyToken extends React.Component {
   state = {
@@ -106,6 +89,5 @@ PoaBuyToken.propTypes = {
   available: PropTypes.string,
   getAvailable: PropTypes.func.isRequired,
 }
-
 
 export default withStyles(styles)(PoaBuyToken)

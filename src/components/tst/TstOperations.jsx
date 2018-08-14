@@ -8,22 +8,21 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Balance from 'components/common/Balance'
-import PoaBuyToken from 'components/poa/PoaBuyToken'
-import PoaClaimToken from 'components/poa/PoaClaimToken'
 import Transfer from 'components/common/Transfer'
 import Details from 'components/common/Details'
-import poaActions from 'actions/poa'
+import TstBook from 'components/tst/TstBook'
+import tstActions from 'actions/tst'
 
 const mapStateToProps = state => {
   return {
-    balance: state.poa.addressBalance,
-    metaMaskBalance: state.poa.metaMaskBalance,
-    tokenDetails: state.poa.tokenDetails,
-    buyLoading: state.poa.buyLoading,
-    available: state.poa.available,
-    claimable: state.poa.claimable,
-    claimLoading: state.poa.claimLoading,
-    transferLoading: state.poa.transferLoading,
+    balance: state.tst.addressBalance,
+    metaMaskBalance: state.tst.metaMaskBalance,
+    tokenDetails: state.tst.tokenDetails,
+    transferLoading: state.tst.transferLoading,
+    booked: state.tst.booked,
+    bookLoading: state.tst.bookLoading,
+    verified: state.tst.verified,
+    accessKey: state.tst.accessKey,
     isAddress: state.web3.web3Instance && state.web3.web3Instance.utils.isAddress,
   }
 }
@@ -33,22 +32,20 @@ const mapDispatchToProps = dispatch => {
     getAddressBalance,
     getMetaMaskBalance, 
     getTokenDetails, 
-    buyToken, 
-    getAvailable,
-    claimTst,
-    getClaimable,
-    transfer
-  } = bindActionCreators(poaActions, dispatch)
+    transfer,
+    bookDay,
+    checkMonth,
+    verifyKey,
+  } = bindActionCreators(tstActions, dispatch)
 
   return {
     getAddressBalance,
     getMetaMaskBalance,
     getTokenDetails,
-    buyToken,
-    getAvailable,
-    claimTst,
-    getClaimable,
-    transfer
+    transfer,
+    bookDay,
+    checkMonth,
+    verifyKey,
   }
 }
 
@@ -64,34 +61,32 @@ const styles = {
   },
 };
 
-class PoaOperations extends React.Component {
+class TstOperations extends React.Component {
 
   componentDidMount() {
-    const { getMetaMaskBalance, getAvailable, getClaimable } = this.props
+    const { getMetaMaskBalance } = this.props
     getMetaMaskBalance()
-    getAvailable()
-    getClaimable()
   }
  
   render() {
     const { 
       classes, 
-      buyToken, 
-      buyLoading, 
       metaMaskBalance, 
       tokenDetails, 
-      getAvailable, 
-      available, 
       getMetaMaskBalance,
-      claimTst,
-      getClaimable,
-      claimable,
-      claimLoading,
       transfer,
       transferLoading,
       isAddress,
       balance,
-      getAddressBalance
+      getAddressBalance,
+      checkBooking,
+      booked,
+      checkMonth,
+      bookDay,
+      bookLoading,
+      accessKey,
+      verified,
+      verifyKey
     } = this.props;
 
     return (
@@ -99,36 +94,34 @@ class PoaOperations extends React.Component {
         <Card className={classes.card}>
           <CardContent>
             <Typography variant="headline" component="h2">
-              PoA token
+              Time Share Token
             </Typography>
             <Details details={tokenDetails} classes={classes}/>
             <Divider/>
             <Balance balance={balance} getAddressBalance={getAddressBalance} isAddress={isAddress} />
             <Divider/>
-            <PoaBuyToken handleBuy={buyToken} loading={buyLoading} getAvailable={getAvailable} available={available}/>
-            <Divider/>
             <Transfer handleTransfer={transfer} loading={transferLoading} getAvailable={getMetaMaskBalance} available={metaMaskBalance} isAddress={isAddress}/>
             <Divider/>
-            <PoaClaimToken handleClaim={claimTst} loading={claimLoading} getAvailable={getClaimable} available={claimable}/>
+            <TstBook checkBooking={checkBooking} booked={booked} checkMonth={checkMonth} bookDay={bookDay} loading={bookLoading} accessKey={accessKey}/>
           </CardContent>
         </Card>
       </div>
     );
   }
 }
+//<TstVerify verified={verified} verifyKey={verifyKey}>
 
-PoaOperations.propTypes = {
+TstOperations.propTypes = {
   classes: PropTypes.object.isRequired,
-  buyToken: PropTypes.func.isRequired,
-  buyTokenLoading: PropTypes.bool,
   metaMaskBalance: PropTypes.string,
   getMetaMaskBalance: PropTypes.func.isRequired,
   getTokenDetails: PropTypes.func.isRequired,
   tokenDetails: PropTypes.object,
-  claimTst: PropTypes.func.isRequired,
-  claimLoading: PropTypes.bool,
-  getClaimable: PropTypes.func.isRequired,
-  claimable: PropTypes.string,
+  booked: PropTypes.array,
+  checkMonth: PropTypes.func.isRequired,
+  bookDay: PropTypes.func.isRequired,
+  bookLoading: PropTypes.bool,
+  accessKey: PropTypes.string,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PoaOperations));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TstOperations));

@@ -7,7 +7,6 @@ const styles = theme => ({
     position: 'absolute',
     top: '50%',
     transform: 'translate(45px, -50%)'
-    
   },
   icon: {
     color: 'white',
@@ -17,25 +16,19 @@ const styles = theme => ({
     fontSize: 20  
   },
   container: {
-    marginTop: 10,
+    marginTop: 15,
     position: 'relative',
   }
-
 });
 
-
-const Section = props => {
-  const { icon, heading, classes } = props
-
-  return (
-    <div className={classes.container}>
-      
-      <Icon className={classes.icon}>{icon}</Icon>
-      <Typography className={classes.title} variant="title">
-        {heading}
-      </Typography>
-    </div>
-  )
-}
+const Section = ({ icon, heading, classes }) => (
+  <div className={classes.container}>
+    
+    <Icon className={classes.icon}>{icon}</Icon>
+    <Typography className={classes.title} variant="title">
+      {heading}
+    </Typography>
+  </div>
+)
 
 export default withStyles(styles)(Section)

@@ -80,7 +80,9 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
     ///@return true if day is booked
     function isDayBooked(
         uint256 _year, 
-        uint256 _month, uint256 _day) 
+        uint256 _month, 
+        uint256 _day
+    ) 
         external 
         view
         onlyIfValidDate(_year, _month, _day) 
@@ -123,7 +125,7 @@ contract TimeShareToken is PausableToken, DetailedERC20, MintableToken, Burnable
         returns (bytes b) 
     {
         b = new bytes(32);
-        // fairly simple operation, no danger
+        // fairly simple operation, no danger here
         // solium-disable-next-line security/no-inline-assembly
         assembly { mstore(add(b, 32), x) }
     }

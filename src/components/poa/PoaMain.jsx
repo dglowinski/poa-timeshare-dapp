@@ -4,23 +4,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import poaActions from 'actions/poa'
 import PropertyCard from 'components/common/PropertyCard'
-import PoaLayout from 'components/poa/PoaLayout'
+import TokenLayout from 'components/common/TokenLayout'
 import PoaOperations from 'components/poa/PoaOperations'
-
-const mapStateToProps = state => {
-  return {
-    metaData: state.poa.tokenDetails.metaData,
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  let { getTokenDetails } = bindActionCreators(poaActions, dispatch)
-  
-  return {
-    getTokenDetails
-  }
-}
-
 
 class PoaMain extends React.Component {
   state = {}
@@ -35,7 +20,7 @@ class PoaMain extends React.Component {
     const { metaData: {photoUrl, description} } = this.props
 
     return (    
-      <PoaLayout 
+      <TokenLayout 
         meta={<PropertyCard image={photoUrl} description={description} />} 
         actions={<PoaOperations />}
       />
@@ -51,6 +36,21 @@ PoaMain.propTypes = {
 PoaMain.defaultProps = {
   metaData: {}
 };
+
+
+const mapStateToProps = state => {
+  return {
+    metaData: state.poa.tokenDetails.metaData,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  let { getTokenDetails } = bindActionCreators(poaActions, dispatch)
+  
+  return {
+    getTokenDetails
+  }
+}
 
 export default connect(
   mapStateToProps,

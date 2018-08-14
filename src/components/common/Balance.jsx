@@ -7,39 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import poaActions from 'actions/poa'
 import Section from 'components/common/Section'
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-   // balance: ownProps === "PoA" ? state.poa.addressBalance : state.tst.addressBalance,
-    balance: state.poa.addressBalance,
-    isAddress: state.web3.web3Instance && state.web3.web3Instance.utils.isAddress || null,
-  }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  // const { getAddressBalance } = ownProps === "PoA" 
-  //   ? bindActionCreators(poaActions, dispatch)
-  //   : bindActionCreators(tstActions, dispatch)
-  const { getAddressBalance } = bindActionCreators(poaActions, dispatch)
-  return {
-    getAddressBalance
-  }
-}
-
-const styles = theme => ({
-  title: {
-    marginBottom: 16,
-    fontSize: 14,
-    display: "inline-block"
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginTop: 0,
-    width: 200,
-  },
-});
-
+import styles from 'styles/operations'
 
 class Balance extends React.Component {
   state = {
@@ -77,7 +45,7 @@ class Balance extends React.Component {
           margin="normal"
         />
         <Typography className={classes.title} color="textSecondary">
-          Balance: {balance || "-"}
+          Balance: <b>{balance || "-"}</b>
         </Typography>
       </div>
     )
@@ -87,9 +55,7 @@ class Balance extends React.Component {
 Balance.propTypes = {
   classes: PropTypes.object.isRequired,
   getAddressBalance: PropTypes.func.isRequired,
-  token: PropTypes.string.isRequired,
-  balance: PropTypes.number,
+  balance: PropTypes.string,
 }
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Balance))
+export default withStyles(styles)(Balance)

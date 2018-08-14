@@ -17,28 +17,26 @@ const styles = {
   },
 };
 
-const PropertyCard = props => {
-  const { classes, image, description } = props;
-  return (
-    <div>
-      <Card className={classes.card}>
-        <CardMedia
-          className={classes.media}
-          image={image}
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="headline" component="h2">
-            Token meta data
-          </Typography>
-          <Typography component="p">
-            {description}
-          </Typography>
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
+const PropertyCard = ({ classes, image, description }) => (
+  <div>
+    <Card className={classes.card}>
+      <CardMedia
+        className={classes.media}
+        image={image}
+        title="Berlin property"
+      />
+      <CardContent>
+        <Typography gutterBottom variant="headline" component="h2">
+          Token meta data
+        </Typography>
+        <Typography component="p">
+          {description}
+        </Typography>
+      </CardContent>
+    </Card>
+  </div>
+);
+
 
 PropertyCard.propTypes = {
   classes: PropTypes.object.isRequired,

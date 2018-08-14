@@ -91,7 +91,7 @@ const styles = theme => ({
   }
 })
 
-class MiniDrawer extends React.Component {
+class MainLayout extends React.Component {
   state = {
     open: false
   }
@@ -200,7 +200,7 @@ class MiniDrawer extends React.Component {
   }
 }
 
-MiniDrawer.propTypes = {
+MainLayout.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   children: PropTypes.array
@@ -218,4 +218,4 @@ const mapDispatchToProps = dispatch => {
     noticeClear
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(MiniDrawer))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(MainLayout))
