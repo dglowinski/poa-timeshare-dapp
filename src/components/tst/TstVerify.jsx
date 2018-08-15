@@ -31,7 +31,7 @@ class TstVerify extends React.Component {
       <div>
         <Section
           heading="Open the door. Pick the day first"
-          icon="date_range"
+          icon="https"
         />
         <div>
           <div style={{ float: 'left' }}>

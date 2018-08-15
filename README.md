@@ -7,7 +7,6 @@ Additionally TST can be used to control physical access to the property. After t
 
 The economics of this setup are possibly similar to dividends: if the property use is in demand, the price of TST is high, which incentivizes the PoA owners to hold their token, which lowers the supply and drives up the property valuation.
 
-
 ## Ðapp features
 
 The Ðapp part of this project implements the above behaviour: 
@@ -86,14 +85,6 @@ serve the build folder using eg. http-server
 $ http-server build -p 8000
 ```
 
-## Implementation details
-
-Tracking time on blockchain is problematic. Here for simplicity the passage of time is measured in blocks, assuming that an approximate number of blocks in a year can be calculated. For demonstration purposes, the time in the PoA contract is sped up to 2 blocks per ‘day’. This means that 100% PoA tokens generate 1 TST token every second block. In production a more robust solution would be required, possibly using oracles.
-
-The TST token is generated directly by PoA token in constructor with new TimeShareToken(). With increasing code size, the tokens should be deployed separately, and ownership of TST should be transferred to PoA.
-
-The price of PoA token is set to 1000 tokens (total supply) for 1 Eth.
-
 ## Tests
 
 To run the tests, launch ganache-cli and then
@@ -110,7 +101,7 @@ $ npm run coverage
 
 ## Libraries
 
-The project uses a standard set of libraries. Truffle, Zeppelin, [truffle box with redux](https://truffleframework.com/boxes/react-auth), upgraded to newest React and React Router, Material UI. Additionally a [ethereum-datetime](https://github.com/pipermerriam/ethereum-datetime) is used for working with dates and timestamps.
+The project uses a standard set of libraries. Truffle, Zeppelin, [truffle box with redux](https://truffleframework.com/boxes/react-auth), upgraded to newest React and React Router, Material UI. Additionally [ethereum-datetime](https://github.com/pipermerriam/ethereum-datetime) is used for working with dates and timestamps.
 
 ## Linters
 
@@ -118,7 +109,15 @@ Eslint, prettier and solium linters are run at pre-commit hook on staged files.
 
 ## Docker
 
-Dockerfile is provided. Run dapp build first.
+Dockerfile is provided.
+
+## Implementation details
+
+Tracking time on blockchain is problematic. Here for simplicity the passage of time is measured in blocks, assuming that an approximate number of blocks in a year can be calculated. For demonstration purposes, the time in the PoA contract is sped up to 2 blocks per ‘day’. This means that 100% PoA tokens generate 1 TST token every second block. In production a more robust solution would be required, possibly using oracles.
+
+The TST token is generated directly by PoA token in constructor with new TimeShareToken(). With increasing code size, the tokens should be deployed separately, and ownership of TST should be transferred to PoA.
+
+The price of PoA token is set to 1000 tokens (total supply) for 1 Eth.
 
 ## Possible improvements
 * the project implements single PoA and TST tokens, representing a single physical property. A token factory to generate and manage many properties could be implemented
