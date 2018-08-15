@@ -30,14 +30,14 @@ export default withStyles(styles)(classes => (
       </Typography>
       <Typography className={classes.title} color="textSecondary" style={{margin:10}}>
         <ul>
-          <li>- get the details of both tokens: name, symbol, decimals, meta data (description, link to photos etc.)</li>
-          <li>- check balance of an ethereum address - both tokens</li>
-          <li>- check balance of current address - MetaMask or local - both tokens</li>
-          <li>- transfer both tokens</li>
-          <li>- buy PoA tokens with Ether</li>
-          <li>- check available timeshare balance in PoA of current account and claim TST token</li>
-          <li>- check available days in TST, make a booking, sign timestamp and receive access key</li>
-          <li>- verify the access key for selected day.</li>
+          <li>get the details of both tokens: name, symbol, decimals, meta data (description, link to photos etc.)</li>
+          <li>check balance of an ethereum address - both tokens</li>
+          <li>check balance of current address - MetaMask or local - both tokens</li>
+          <li>transfer both tokens</li>
+          <li>buy PoA tokens with Ether</li>
+          <li>check available timeshare balance in PoA of current account and claim TST token</li>
+          <li>check available days in TST, make a booking, sign timestamp and receive access key</li>
+          <li>verify the access key for selected day.</li>
         </ul>
       </Typography>
     </CardContent>
