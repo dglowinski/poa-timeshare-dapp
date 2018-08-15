@@ -125,6 +125,7 @@ Dockerfile is provided. Run dapp build first.
 * the right to use a property could have different value on different days, for example during holidays, festivals etc. Instead of booking a day in TST, a non-fungible token could be generated, which would allow a secondary market for trading access keys to emerge
 * as mentioned before, a better time representation could be implemented.
 * as mentioned before, due to differences in signing implementations, access key verification currently only works with ganache-cli. Additional research is needed to resolve this problem.
+* run vulnerability detection tools such as ConsenSys mythril
 * UI
 
 ## Donate
