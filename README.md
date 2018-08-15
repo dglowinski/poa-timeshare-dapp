@@ -26,7 +26,7 @@ The contracts are deployed on Ropsten:
 * PoA [0xa5e902084e2106661a5A3130771d58E878b2c86D](https://ropsten.etherscan.io/address/0xa5e902084e2106661a5a3130771d58e878b2c86d)
 * TST [0x52549435D38774E290Aea4bE00Bc4B7Eb50A1Ba5](https://ropsten.etherscan.io/address/0x52549435d38774e290aea4be00bc4b7eb50a1ba5)
 
-and docker image is hosted on [Azure](http://51.145.137.220)
+and docker image is hosted on [Azure](http://137.117.184.38)
 
 ## Installation
 
