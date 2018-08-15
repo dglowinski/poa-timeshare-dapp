@@ -110,7 +110,7 @@ $ npm run coverage
 
 ## Libraries
 
-The project uses a standard set of libraries. Truffle, Zeppelin, [truffle box with redux](https://truffleframework.com/boxes/react-auth), upgraded to newest React and React Router, Material UI. Additionally a DateTime library is used for working with dates.
+The project uses a standard set of libraries. Truffle, Zeppelin, [truffle box with redux](https://truffleframework.com/boxes/react-auth), upgraded to newest React and React Router, Material UI. Additionally a [ethereum-datetime](https://github.com/pipermerriam/ethereum-datetime) is used for working with dates and timestamps.
 
 ## Linters
 
